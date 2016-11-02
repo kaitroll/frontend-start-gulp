@@ -17,6 +17,12 @@ const watchify = require('watchify')
 const uglify = require('gulp-uglify')
 const gulpif = require('gulp-if')
 const gnf = require('gulp-npm-files')
+const postcss = require('gulp-postcss')
+const cssnano = require('cssnano')
+const autoprefixer = require('autoprefixer')
+const colorfunction = require('postcss-color-function')
+const precss = require('precss')
+const animation = require('postcss-animation')
 const del = require('del')
 
 const srcDir = path.resolve(__dirname, 'src')
@@ -31,27 +37,12 @@ const paths = {
   img: [srcDir + '/images/**/*'],
   js: [srcDir + '/scripts/app.js'],
   scss: [srcDir + '/styles/sass/**/*.scss'],
+  postcss: [srcDir + '/styles/postcss/**/*.css'],
 }
-
-const jsDistFile = process.env.NODE_ENV === 'production' ? 'app.min.js' : 'app.js'
 
 gulp.task('env', () => {
   gutil.log('NODE_ENV is ' + process.env.NODE_ENV)
 })
-
-// console.log(gutil.env.type === 'production')
-// .pipe(gutil.env.type === 'production' ? sass({outputStyle: 'compressed'}) : gutil.noop())
-// 'node_modules/bootstrap/dist/css/bootstrap.min.css'
-
-// gulp.task('concat', () => {
-//   gulp.src([
-//     srcDir + '/scripts/1.js',
-//     srcDir + '/scripts/2.js',
-//   ])
-//     .pipe(concat('app.js'))
-//     .on('error', gutil.log)
-//     .pipe(gulp.dest(destDir + '/js'))
-// })
 
 // gulp.task('js', () => {
 //   return gulp.src(paths.js)
@@ -69,7 +60,7 @@ gulp.task('js', () => {
     .transform('babelify', {presets: ['es2015', 'stage-0']})
     .bundle()
     .on('error', (err) => { console.error(err) })
-    .pipe(source(jsDistFile))
+    .pipe(source('app.js'))
     .pipe(buffer())
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(gulpif(process.env.NODE_ENV === 'production', uglify()))
@@ -97,6 +88,24 @@ gulp.task('scss', () => {
     .pipe(sourcemaps.init())
     .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
     .pipe(sourcemaps.write())
+    .pipe(connect.reload())
+    .pipe(gulp.dest(destDir + '/css'))
+})
+
+gulp.task('postcss', () => {
+  let processors = [
+    autoprefixer(),
+    cssnano(),
+    colorfunction(),
+    precss(),
+    animation(),
+  ]
+
+  return gulp.src(srcDir + '/styles/postcss/app.css')
+    .pipe(sourcemaps.init())
+    .pipe(postcss(processors))
+    .on('error', gutil.log)
+    .pipe(sourcemaps.write('./'))
     .pipe(connect.reload())
     .pipe(gulp.dest(destDir + '/css'))
 })
@@ -130,7 +139,8 @@ gulp.task('watch', () => {
   imagesCopyAndWatch()
   gulp.watch(paths.img, ['img'])
   gulp.watch([srcDir + '/scripts/**/*.js'], ['js'])
-  gulp.watch(paths.scss, ['scss'])
+  // gulp.watch(paths.scss, ['scss'])
+  gulp.watch(paths.postcss, ['postcss'])
 })
 
 function htmlCopyAndWatch() {
@@ -147,4 +157,5 @@ function imagesCopyAndWatch() {
     .pipe(gulp.dest(destDir))
 }
 
-gulp.task('default', ['env', 'copyNpmDependenciesOnly', 'connect', 'js', 'scss', 'watch'])
+// gulp.task('default', ['env', 'copyNpmDependenciesOnly', 'connect', 'js', 'scss', 'watch'])
+gulp.task('default', ['env', 'copyNpmDependenciesOnly', 'connect', 'js', 'postcss', 'watch'])
