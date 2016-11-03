@@ -26,9 +26,9 @@ const animation = require('postcss-animation')
 const del = require('del')
 
 const srcDir = path.resolve(__dirname, 'src')
-const builtDir = path.resolve(__dirname, 'built')
-const productionDir = path.resolve(builtDir, 'production')
-const developmentDir = path.resolve(builtDir, 'development')
+const buildDir = path.resolve(__dirname, 'build')
+const productionDir = path.resolve(buildDir, 'production')
+const developmentDir = path.resolve(buildDir, 'development')
 const envDir = process.env.NODE_ENV === 'production' ? productionDir : developmentDir
 const destDir = path.resolve(envDir, 'dist')
 

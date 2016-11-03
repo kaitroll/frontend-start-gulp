@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "set NODE_ENV=development& gulp",
+    "build": "set NODE_ENV=production& gulp",
+    "clean-dev": "set NODE_ENV=development& gulp clean",
+    "clean-prod": "set NODE_ENV=production& gulp clean",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

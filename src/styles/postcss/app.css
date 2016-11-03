@@ -1,2 +1,4 @@
 @import "base/variables";
+@import "base/global";
+@import "base/mixins";
 /*@import "components/auth";*/
