@@ -1,1 +1,3 @@
-// import Nav from './components/Nav'
+import Nav from './components/Nav'
+
+new Nav().render()

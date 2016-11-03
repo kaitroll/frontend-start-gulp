@@ -2,14 +2,14 @@ const path = require('path')
 const gulp = require('gulp')
 const watch = require('gulp-watch')
 const gutil = require('gulp-util')
-const concat = require('gulp-concat')
+// const concat = require('gulp-concat')
 const sass = require('gulp-sass')
 const sourcemaps = require('gulp-sourcemaps')
 const htmlmin = require('gulp-htmlmin')
 const imagemin = require('gulp-imagemin')
 const connect = require('gulp-connect')
-const babel = require('gulp-babel')
-const babelify = require('babelify')
+// const babel = require('gulp-babel')
+// const babelify = require('babelify')
 const browserify = require('browserify')
 const buffer = require('vinyl-buffer')
 const source = require('vinyl-source-stream')
@@ -73,16 +73,6 @@ gulp.task('copyNpmDependenciesOnly', () => {
   gulp.src(gnf(), {base: './'}).pipe(gulp.dest(envDir))
 })
 
-// gulp.task('lib', () => {
-//   return gulp.src([
-//     'node_modules/jquery/dist/jquery.min.js',
-//     'node_modules/bootstrap/dist/css/bootstrap.min.css',
-//     'node_modules/bootstrap/dist/js/bootstrap.min.js',
-//     'node_modules/bootstrap/dist/fonts/*',
-//   ])
-//     .pipe(gulp.dest(envDir + '/lib'))
-// })
-
 gulp.task('scss', () => {
   return gulp.src(paths.scss)
     .pipe(sourcemaps.init())
@@ -95,11 +85,14 @@ gulp.task('scss', () => {
 gulp.task('postcss', () => {
   let processors = [
     autoprefixer(),
-    cssnano(),
     colorfunction(),
     precss(),
     animation(),
   ]
+
+  if (process.env.NODE_ENV === 'production') {
+    processors.push(cssnano())
+  }
 
   return gulp.src(srcDir + '/styles/postcss/app.css')
     .pipe(sourcemaps.init())
