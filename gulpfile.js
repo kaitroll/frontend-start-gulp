@@ -35,7 +35,7 @@ const destDir = path.resolve(envDir, 'dist')
 
 const paths = {
   html: [srcDir + '/*.html'],
-  img: [srcDir + '/images/**/*'],
+  img: [srcDir + '/images/**/*.jpg'],
   js: [srcDir + '/scripts/app.js'],
   scss: [srcDir + '/styles/sass/**/*.scss'],
   postcss: [srcDir + '/styles/postcss/**/*.css'],
@@ -160,5 +160,5 @@ function imagesCopyAndWatch() {
     .pipe(gulp.dest(destDir))
 }
 
-// gulp.task('default', ['env', 'copyNpmDependenciesOnly', 'img', 'connect', 'js', 'scss', 'watch'])
-gulp.task('default', ['env', 'copyNpmDependenciesOnly', 'img', 'connect', 'js', 'postcss', 'watch'])
+// gulp.task('default', ['env', 'copyNpmDependenciesOnly', 'connect', 'js', 'scss', 'watch'])
+gulp.task('default', ['env', 'copyNpmDependenciesOnly', 'connect', 'js', 'postcss', 'watch'])

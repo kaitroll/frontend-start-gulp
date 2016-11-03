@@ -1,6 +1,6 @@
 # Frontend Start Gulp
 ### Features
-1. PostCss with plugins
+1. PostCSS with plugins
 2. SASS
 3. JavaScript ES6 Modules
 4. Minify html, css, js, images
@@ -16,4 +16,5 @@
 1. `npm start` for development
 2. `npm run build` for production
 3. Clean build folder: `npm run clean-dev` and `npm run clean-prod`
-4. Default use PostCss. If want use SASS you must uncomment in gulpfile.js 142 and 160 lines. Plus comment 161 and 143 lines.
+4. Default use PostCSS. If want use SASS you must uncomment in gulpfile.js 142 and 160 lines. Plus comment 161 and 143 lines.
+5. If want use imagemin add in the default task 'img'.

@@ -17,9 +17,9 @@ $purple: #6D73C2;
 $color-main: black;
 $color-background: white;
 
-$small: screen and(min-width: 600px);
-$medium: screen and(min-width: 900px);
-$large: screen and(min-width: 1200px);
+$small: screen and (min-width: 600px);
+$medium: screen and (min-width: 900px);
+$large: screen and (min-width: 1200px);
 
 $container-default-width: 80%;
 $container-max-width: 80%;

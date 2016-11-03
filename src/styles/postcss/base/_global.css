@@ -12,8 +12,8 @@ body {
   padding: 0;
   color: $color-main;
   background-color: $color-background;
-  font-size: 1.8rem;
   font-family: $font-main;
+  font-size: 1.8rem;
   line-height: 160%;
   font-weight: $font-weight-normal;
 }
@@ -48,6 +48,6 @@ a:hover, a:focus {
 em {
   font-weight: $font-weight-heavy;
   font-size: 140%;
-  font-style: normal;
   color: $yellow;
+  font-style: normal;
 }
