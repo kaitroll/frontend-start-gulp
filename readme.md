@@ -5,7 +5,7 @@
 3. JavaScript ES6 Modules
 4. Minify html, css, js, images
 5. Live reload server http://localhost:8080/
-6. Copy npm dependencies only in built folder
+6. Copy npm dependencies only in build folder
 7. Eslint (good for Atom editor)
 
 ### Install
