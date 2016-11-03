@@ -1,4 +1,5 @@
 const path = require('path')
+const fs = require('fs')
 const gulp = require('gulp')
 const watch = require('gulp-watch')
 const gutil = require('gulp-util')
@@ -74,10 +75,15 @@ gulp.task('copyNpmDependenciesOnly', () => {
 })
 
 gulp.task('scss', () => {
+  let minify = {}
+  if (process.env.NODE_ENV === 'production') {
+    minify.outputStyle = 'compressed'
+  }
+
   return gulp.src(paths.scss)
     .pipe(sourcemaps.init())
-    .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-    .pipe(sourcemaps.write())
+    .pipe(sass(minify).on('error', sass.logError))
+    .pipe(sourcemaps.write('./'))
     .pipe(connect.reload())
     .pipe(gulp.dest(destDir + '/css'))
 })
@@ -124,7 +130,11 @@ gulp.task('htmlmin', () => {
 })
 
 gulp.task('clean', () => {
-  del([envDir])
+  del([envDir]).then((paths) => {
+    if (!fs.existsSync(envDir)) {
+      fs.mkdirSync(envDir)
+    }
+  })
 })
 
 gulp.task('watch', () => {
@@ -150,5 +160,5 @@ function imagesCopyAndWatch() {
     .pipe(gulp.dest(destDir))
 }
 
-// gulp.task('default', ['env', 'copyNpmDependenciesOnly', 'connect', 'js', 'scss', 'watch'])
-gulp.task('default', ['env', 'copyNpmDependenciesOnly', 'connect', 'js', 'postcss', 'watch'])
+// gulp.task('default', ['env', 'copyNpmDependenciesOnly', 'img', 'connect', 'js', 'scss', 'watch'])
+gulp.task('default', ['env', 'copyNpmDependenciesOnly', 'img', 'connect', 'js', 'postcss', 'watch'])
